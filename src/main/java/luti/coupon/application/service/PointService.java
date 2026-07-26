@@ -35,7 +35,6 @@ public class PointService {
 	@Transactional
 	public void charge(User user, Coupon coupon, Long pointAmount) {
 		user.chargePoint(pointAmount);
-		userStore.save(user);
 		pointChargeHistoryStore.save(PointChargeHistory.create(user, coupon, pointAmount));
 	}
 

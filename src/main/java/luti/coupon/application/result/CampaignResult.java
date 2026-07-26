@@ -3,6 +3,9 @@ package luti.coupon.application.result;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import luti.coupon.domain.model.Campaign;
+import luti.coupon.domain.model.CouponPolicy;
+
 public class CampaignResult {
 
 	private final Long id;
@@ -24,9 +27,15 @@ public class CampaignResult {
 		this.policies = policies;
 	}
 
-	public static CampaignResult of(Long id, String name, String description, LocalDateTime startAt,
-									LocalDateTime endAt, String status, List<PolicyResult> policies) {
-		return new CampaignResult(id, name, description, startAt, endAt, status, policies);
+	public static CampaignResult of(Campaign campaign, List<CouponPolicy> policies) {
+		List<PolicyResult> policyResults = policies.stream()
+			.map(PolicyResult::of)
+			.toList();
+		return new CampaignResult(
+			campaign.getId(), campaign.getName(), campaign.getDescription(),
+			campaign.getStartAt(), campaign.getEndAt(), campaign.getStatus().name(),
+			policyResults
+		);
 	}
 
 	public Long getId() {
@@ -68,8 +77,8 @@ public class CampaignResult {
 			this.quantity = quantity;
 		}
 
-		public static PolicyResult of(Long id, Long pointAmount, int quantity) {
-			return new PolicyResult(id, pointAmount, quantity);
+		public static PolicyResult of(CouponPolicy policy) {
+			return new PolicyResult(policy.getId(), policy.getPointAmount(), policy.getQuantity());
 		}
 
 		public Long getId() {

@@ -21,6 +21,7 @@ public enum ErrorCode {
 	NOT_AVAILABLE_COUPON("2002", HttpStatus.BAD_REQUEST, "Coupon is not available for use."),
 
 	COUPON_POLICY_NOT_FOUND("3001", HttpStatus.NOT_FOUND, "Coupon policy not found."),
+	COUPON_POLICY_CAMPAIGN_MISMATCH("3002", HttpStatus.BAD_REQUEST, "Coupon policy does not belong to the specified campaign."),
 
 	USER_NOT_FOUND("4001", HttpStatus.NOT_FOUND, "User not found.");
 
