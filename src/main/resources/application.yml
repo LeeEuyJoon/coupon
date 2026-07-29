@@ -17,5 +17,19 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics
+      cors:
+        allowed-origins: ${FRONTEND_ORIGIN:http://localhost:3000}
+        allowed-methods: GET
+
+app:
+  cors:
+    allowed-origins: ${FRONTEND_ORIGIN:http://localhost:3000}
+
+
 server:
   port: ${SERVER_PORT:8080}
