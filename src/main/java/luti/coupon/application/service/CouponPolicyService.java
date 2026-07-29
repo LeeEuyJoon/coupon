@@ -39,4 +39,8 @@ public class CouponPolicyService {
 		return couponPolicyReader.findByCampaignId(campaignId);
 	}
 
+	public Long countByCampaignId(Long campaignId) {
+		return couponPolicyReader.countByCampaignId(campaignId);
+	}
+
 }

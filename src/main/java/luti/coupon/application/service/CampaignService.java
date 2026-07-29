@@ -3,6 +3,7 @@ package luti.coupon.application.service;
 import static luti.coupon.common.ErrorCode.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,4 +40,9 @@ public class CampaignService {
 			throw new BusinessException(NOT_ACTIVE_CAMPAIGN);
 		}
 	}
+
+	public List<Campaign> getAll() {
+		return campaignReader.findAllOrderByIdDesc();
+	}
+
 }

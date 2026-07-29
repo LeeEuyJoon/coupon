@@ -8,4 +8,5 @@ import luti.coupon.domain.model.CouponPolicy;
 public interface CouponPolicyReader {
 	Optional<CouponPolicy> findById(Long id);
 	List<CouponPolicy> findByCampaignId(Long campaignId);
+	Long countByCampaignId(Long campaignId);
 }
