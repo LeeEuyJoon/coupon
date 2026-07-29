@@ -1,5 +1,6 @@
 package luti.coupon.infrastructure.persistence;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
@@ -18,5 +19,10 @@ public class CampaignReaderImpl implements CampaignReader {
 	@Override
 	public Optional<Campaign> findById(Long id) {
 		return repository.findById(id);
+	}
+
+	@Override
+	public List<Campaign> findAllOrderByIdDesc() {
+		return repository.findAllByOrderByIdDesc();
 	}
 }

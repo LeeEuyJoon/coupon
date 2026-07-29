@@ -1,5 +1,7 @@
 package luti.coupon.web.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import luti.coupon.application.facade.CampaignFacade;
 import luti.coupon.web.mapper.CampaignMapper;
 import luti.coupon.web.request.CreateCampaignRequest;
+import luti.coupon.web.response.CampaignListResponse;
 import luti.coupon.web.response.CampaignResponse;
 
 @RestController
@@ -35,4 +38,11 @@ public class CampaignController {
 		return ResponseEntity.ok(CampaignMapper.toResponse(campaignFacade.getCampaign(id)));
 	 }
 
+	 @GetMapping
+	public ResponseEntity<List<CampaignListResponse>> getCampaigns() {
+		List<CampaignListResponse> response = campaignFacade.getCampaigns().stream()
+			.map(CampaignMapper::toListResponse)
+			.toList();
+		return ResponseEntity.ok(response);
+	 }
 }

@@ -25,4 +25,10 @@ public class CouponPolicyReaderImpl implements CouponPolicyReader {
 	public List<CouponPolicy> findByCampaignId(Long campaignId) {
 		return repository.findByCampaignId(campaignId);
 	}
+
+	@Override
+	public Long countByCampaignId(Long campaignId) {
+		return repository.countByCampaignId(campaignId);
+	}
+
 }

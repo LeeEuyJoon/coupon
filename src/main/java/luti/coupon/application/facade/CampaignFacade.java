@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import luti.coupon.application.command.CreateCampaignCommand;
+import luti.coupon.application.result.CampaignListResult;
 import luti.coupon.application.result.CampaignResult;
 import luti.coupon.application.service.CampaignService;
 import luti.coupon.application.service.CouponPolicyService;
@@ -42,6 +43,13 @@ public class CampaignFacade {
 		Campaign campaign = campaignService.getById(campaignId);
 		List<CouponPolicy> policies = couponPolicyService.getByCampaign(campaignId);
 		return CampaignResult.of(campaign, policies);
+	}
+
+	public List<CampaignListResult> getCampaigns() {
+		return campaignService.getAll().stream()
+			.map(campaign -> CampaignListResult.of(
+				campaign, couponPolicyService.countByCampaignId(campaign.getId())
+			)).toList();
 	}
 
 }
