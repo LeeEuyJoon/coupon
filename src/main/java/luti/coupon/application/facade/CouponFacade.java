@@ -39,16 +39,19 @@ public class CouponFacade {
 
 	@Transactional
 	public int createCoupons(CreateCouponsCommand command) {
-		return meterRegistry.timer("coupon.generation.duration").record(() -> {
-			CouponPolicy policy = couponPolicyService.getById(command.getPolicyId());
+		return meterRegistry.timer("coupon.generation.duration",
+								   "campaignId", String.valueOf(command.getCampaignId()),
+								   "policyId", String.valueOf(command.getPolicyId()))
+							.record(() -> {
+								CouponPolicy policy = couponPolicyService.getById(command.getPolicyId());
 
-			if (!policy.getCampaign().getId().equals(command.getCampaignId())) {
-				throw new BusinessException(COUPON_POLICY_CAMPAIGN_MISMATCH);
-			}
+								if (!policy.getCampaign().getId().equals(command.getCampaignId())) {
+									throw new BusinessException(COUPON_POLICY_CAMPAIGN_MISMATCH);
+								}
 
-			couponService.createBatch(policy, policy.getQuantity());
-			return policy.getQuantity();
-		});
+								couponService.createBatch(policy, policy.getQuantity());
+								return policy.getQuantity();
+							});
 	}
 
 	@Transactional
