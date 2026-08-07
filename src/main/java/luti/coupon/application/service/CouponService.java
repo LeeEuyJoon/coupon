@@ -2,12 +2,14 @@ package luti.coupon.application.service;
 
 import static luti.coupon.common.ErrorCode.*;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import luti.coupon.common.BusinessException;
 import luti.coupon.domain.model.Coupon;
 import luti.coupon.domain.model.CouponPolicy;
+import luti.coupon.domain.model.CouponStatus;
 import luti.coupon.domain.model.User;
 import luti.coupon.domain.port.CouponReader;
 import luti.coupon.domain.port.CouponStore;
@@ -48,4 +50,13 @@ public class CouponService {
 	public void markAsUsed(Coupon coupon, User user) {
 		coupon.use(user);
 	}
+
+	public Long countByCouponPolicyId(Long couponPolicyId) {
+		return couponReader.countByCouponPolicyId(couponPolicyId);
+	}
+
+	public Long countUsedByCouponPolicyId(Long couponPolicyId) {
+		return couponReader.countByCouponPolicyIdAndStatus(couponPolicyId, CouponStatus.USED);
+	}
+
 }

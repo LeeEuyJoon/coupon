@@ -10,6 +10,7 @@ import luti.coupon.application.result.CampaignListResult;
 import luti.coupon.application.result.CampaignResult;
 import luti.coupon.application.service.CampaignService;
 import luti.coupon.application.service.CouponPolicyService;
+import luti.coupon.application.service.CouponService;
 import luti.coupon.domain.model.Campaign;
 import luti.coupon.domain.model.CouponPolicy;
 
@@ -19,10 +20,13 @@ public class CampaignFacade {
 
 	private final CampaignService campaignService;
 	private final CouponPolicyService couponPolicyService;
+	private final CouponService couponService;
 
-	public CampaignFacade(CampaignService campaignService, CouponPolicyService couponPolicyService) {
+	public CampaignFacade(CampaignService campaignService, CouponPolicyService couponPolicyService,
+						  CouponService couponService) {
 		this.campaignService = campaignService;
 		this.couponPolicyService = couponPolicyService;
+		this.couponService = couponService;
 	}
 
 	@Transactional
@@ -42,7 +46,16 @@ public class CampaignFacade {
 	public CampaignResult getCampaign(Long campaignId) {
 		Campaign campaign = campaignService.getById(campaignId);
 		List<CouponPolicy> policies = couponPolicyService.getByCampaign(campaignId);
-		return CampaignResult.of(campaign, policies);
+
+		List<CampaignResult.PolicyResult> policyResults = policies.stream()
+			.map(policy -> CampaignResult.PolicyResult.of(
+				policy,
+				couponService.countByCouponPolicyId(policy.getId()),
+				couponService.countUsedByCouponPolicyId(policy.getId())
+			))
+			.toList();
+
+		return CampaignResult.of(campaign, policyResults);
 	}
 
 	public List<CampaignListResult> getCampaigns() {

@@ -12,5 +12,5 @@ public record CampaignResponse(
 	String status,
 	List<PolicyResponse> policies
 ) {
-	public record PolicyResponse(Long id, Long pointAmount, int quantity) {}
+	public record PolicyResponse(Long id, Long pointAmount, int quantity, long generatedCount, long usedCount) {}
 }

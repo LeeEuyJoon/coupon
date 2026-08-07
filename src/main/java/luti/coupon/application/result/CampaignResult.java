@@ -27,10 +27,7 @@ public class CampaignResult {
 		this.policies = policies;
 	}
 
-	public static CampaignResult of(Campaign campaign, List<CouponPolicy> policies) {
-		List<PolicyResult> policyResults = policies.stream()
-			.map(PolicyResult::of)
-			.toList();
+	public static CampaignResult of(Campaign campaign, List<PolicyResult> policyResults) {
 		return new CampaignResult(
 			campaign.getId(), campaign.getName(), campaign.getDescription(),
 			campaign.getStartAt(), campaign.getEndAt(), campaign.getStatus().name(),
@@ -70,15 +67,20 @@ public class CampaignResult {
 		private final Long id;
 		private final Long pointAmount;
 		private final int quantity;
+		private final Long generatedCount;
+		private final Long usedCount;
 
-		private PolicyResult(Long id, Long pointAmount, int quantity) {
+		private PolicyResult(Long id, Long pointAmount, int quantity, Long generatedCount, Long usedCount) {
 			this.id = id;
 			this.pointAmount = pointAmount;
 			this.quantity = quantity;
+			this.generatedCount = generatedCount;
+			this.usedCount = usedCount;
 		}
 
-		public static PolicyResult of(CouponPolicy policy) {
-			return new PolicyResult(policy.getId(), policy.getPointAmount(), policy.getQuantity());
+		public static PolicyResult of(CouponPolicy policy, Long generatedCount, Long usedCount) {
+			return new PolicyResult(policy.getId(), policy.getPointAmount(), policy.getQuantity(),
+									generatedCount, usedCount);
 		}
 
 		public Long getId() {
@@ -92,6 +94,10 @@ public class CampaignResult {
 		public int getQuantity() {
 			return quantity;
 		}
+
+		public Long getGeneratedCount() { return generatedCount; }
+
+		public Long getUsedCount() { return usedCount; }
 	}
 
 }

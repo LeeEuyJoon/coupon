@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
 import luti.coupon.domain.model.Coupon;
+import luti.coupon.domain.model.CouponStatus;
 import luti.coupon.domain.port.CouponReader;
 import luti.coupon.infrastructure.repository.CouponRepository;
 
@@ -23,5 +24,15 @@ public class CouponReaderImpl implements CouponReader {
 	@Override
 	public Optional<Coupon> findByCode(String code) {
 		return repository.findByCode(code);
+	}
+
+	@Override
+	public Long countByCouponPolicyId(Long couponPolicyId) {
+		return repository.countByCouponPolicyId(couponPolicyId);
+	}
+
+	@Override
+	public Long countByCouponPolicyIdAndStatus(Long couponPolicyId, CouponStatus status) {
+		return repository.countByCouponPolicyIdAndStatus(couponPolicyId, status);
 	}
 }
